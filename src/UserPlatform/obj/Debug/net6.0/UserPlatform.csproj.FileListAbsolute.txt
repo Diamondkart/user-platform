@@ -62,3 +62,8 @@ C:\repos\code-warrior\user-platform\src\UserPlatform\obj\Debug\net6.0\refint\Use
 C:\repos\code-warrior\user-platform\src\UserPlatform\obj\Debug\net6.0\UserPlatform.pdb
 C:\repos\code-warrior\user-platform\src\UserPlatform\obj\Debug\net6.0\UserPlatform.genruntimeconfig.cache
 C:\repos\code-warrior\user-platform\src\UserPlatform\obj\Debug\net6.0\ref\UserPlatform.dll
+C:\repos\code-warrior\user-platform\src\UserPlatform\bin\Debug\net6.0\FluentValidation.dll
+C:\repos\code-warrior\user-platform\src\UserPlatform\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\repos\code-warrior\user-platform\src\UserPlatform\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\repos\code-warrior\user-platform\src\UserPlatform\bin\Debug\net6.0\AutoMapper.dll
+C:\repos\code-warrior\user-platform\src\UserPlatform\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
