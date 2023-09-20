@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace UserPlatform.Controllers
 {
@@ -6,5 +7,15 @@ namespace UserPlatform.Controllers
 	[ApiController]
 	public class UsersController: ControllerBase
 	{
+		private readonly IMapper _mapper;
+		public UsersController(IMapper mapper)
+		{
+			_mapper=mapper;
+		}
+		[HttpGet]
+		public async Task<IActionResult> Index()
+		{
+			return Ok();
+		}
 	}
 }
