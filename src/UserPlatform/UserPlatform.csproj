@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="DBScript\" />
+    <Folder Include="Constants\" />
   </ItemGroup>
 
 </Project>
