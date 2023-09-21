@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DBScript\" />
+    <Folder Include="DataInfra\DBScript\" />
   </ItemGroup>
 
 </Project>

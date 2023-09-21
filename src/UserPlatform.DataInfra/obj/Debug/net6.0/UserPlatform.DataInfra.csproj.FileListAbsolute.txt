@@ -1,0 +1,12 @@
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\bin\Debug\net6.0\UserPlatform.DataInfra.deps.json
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\bin\Debug\net6.0\UserPlatform.DataInfra.dll
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\bin\Debug\net6.0\UserPlatform.DataInfra.pdb
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\UserPlatform.DataInfra.csproj.AssemblyReference.cache
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\UserPlatform.DataInfra.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\UserPlatform.DataInfra.AssemblyInfoInputs.cache
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\UserPlatform.DataInfra.AssemblyInfo.cs
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\UserPlatform.DataInfra.csproj.CoreCompileInputs.cache
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\UserPlatform.DataInfra.dll
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\refint\UserPlatform.DataInfra.dll
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\UserPlatform.DataInfra.pdb
+C:\repos\code-warrior\user-platform\src\UserPlatform.DataInfra\obj\Debug\net6.0\ref\UserPlatform.DataInfra.dll
