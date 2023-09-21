@@ -1,4 +1,4 @@
-using UserPlatform.Extensions;
+using UserPlatform.Core.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
