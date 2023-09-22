@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lqtNGRFrb5vFPqk3yh0ZRrKOkvOjHCOd5yykTSSs2a+z/7e29n+4rrihGwtMHIqcBV6uI1Q2OoaJ3AbNxYZurg==",
+  "dgSpecHash": "V61pdH00+9B+SV8Qnd0LCJGNLhn4ZSgMvYDEDBwWqsnRN24rvOIVlkg2p/ol8LAczR/AVUQ2k1eIyLPTJmwZ9g==",
   "success": true,
-  "projectFilePath": "C:\\repos\\code-warrior\\user-platform\\src\\UserPlatform.Ports\\UserPlatform.Ports.csproj",
+  "projectFilePath": "C:\\Users\\akram.alam\\source\\repos\\CodeWarier\\user-platform\\src\\UserPlatform.Ports\\UserPlatform.Ports.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
