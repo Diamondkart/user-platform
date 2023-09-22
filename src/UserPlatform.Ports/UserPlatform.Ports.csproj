@@ -12,4 +12,8 @@
     <Folder Include="Ports\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UserPlatform.Core\UserPlatform.Core.csproj" />
+  </ItemGroup>
+
 </Project>

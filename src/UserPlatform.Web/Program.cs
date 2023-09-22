@@ -1,6 +1,7 @@
 using UserPlatform.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.ConfigureAppConfiguration(c => c.BuildConfiguration(args));
 
 // Add services to the container.
 
@@ -13,7 +14,7 @@ builder.Services.AddCustomServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();

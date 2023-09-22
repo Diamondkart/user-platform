@@ -7,5 +7,9 @@
             services.AddAutoMapper(typeof(Program));
             return services;
         }
-    }
+		public static bool IsLocal(this IHostEnvironment hostEnvironment)
+		{
+			return hostEnvironment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase);
+		}
+	}
 }
