@@ -15,7 +15,7 @@ namespace UserPlatform.ApplicationCore.Queries
             _mediator = mediator;
         }
 
-        public async Task<TResponse> SendAsync<TResponse>(IQuery<TResponse> request, CancellationToken cancellation)
+        public async Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> request, CancellationToken cancellation)
         {
             return await _mediator.Send(request, cancellation);
         }

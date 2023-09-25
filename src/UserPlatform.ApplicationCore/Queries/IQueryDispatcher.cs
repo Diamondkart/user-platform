@@ -2,6 +2,6 @@
 {
     public interface IQueryDispatcher
     {
-        Task<TResponse> SendAsync<TResponse>(IQuery<TResponse> request, CancellationToken cancellation);
+        Task<TResponse> QueryAsync<TResponse>(IQuery<TResponse> request, CancellationToken cancellation);
     }
 }

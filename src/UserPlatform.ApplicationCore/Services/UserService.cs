@@ -18,20 +18,20 @@ namespace UserPlatform.ApplicationCore.Services
             _userRepository = userRepository;
         }
 
-        public async Task<CreateUserResponse> Create(CreateUserRequest createUserRequest)
+        public async Task<CreateUserResponse> CreateAsync(CreateUserRequest createUserRequest)
         {
             var userDetails = _mapper.Map<UserDetails>(createUserRequest);
-            var createdUser = await _userRepository.Create(userDetails);
+            var createdUser = await _userRepository.CreateAsync(userDetails);
             var createdUserResponse = _mapper.Map<CreateUserResponse>(createdUser);
             return createdUserResponse;
         }
 
-        public async Task<GetByUserIdResponse> GetByUserId(Guid userId)
+        public async Task<GetByUserIdResponse> GetByUserIdAsync(Guid userId)
         {
             return new GetByUserIdResponse();
         }
 
-        public async Task<GetByUserNameResponse> GetByUserName(string userName)
+        public async Task<GetByUserNameResponse> GetByUserNameAsync(string userName)
         {
             return new GetByUserNameResponse();
         }

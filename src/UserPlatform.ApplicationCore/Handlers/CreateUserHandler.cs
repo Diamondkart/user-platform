@@ -16,7 +16,7 @@ namespace UserPlatform.ApplicationCore.Handlers
 
         public async Task<CreateUserResponse> Handle(CreateUserRequest request, CancellationToken cancellationToken)
         {
-            var createdUserResponse = await _userService.Create(request);
+            var createdUserResponse = await _userService.CreateAsync(request);
             return await Task.FromResult(createdUserResponse);
         }
     }

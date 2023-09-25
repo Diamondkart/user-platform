@@ -5,7 +5,7 @@ namespace UserPlatform.Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public async Task<UserDetails> Create(UserDetails userDetails)
+        public async Task<UserDetails> CreateAsync(UserDetails userDetails)
         {
             return userDetails;
         }
