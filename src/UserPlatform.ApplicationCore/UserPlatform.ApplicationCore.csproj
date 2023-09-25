@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Ports\In\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UserPlatform.Domain\UserPlatform.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,7 @@
+using FluentValidation.AspNetCore;
+using UserPlatform.ApplicationCore;
 using UserPlatform.Web.Extensions;
+using UserPlatform.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAppConfiguration(c => c.BuildConfiguration(args));
@@ -11,13 +14,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCustomServices();
 
+builder.Services.AddPersistenceBuilderServices();
+// ApplicationCore
+builder.Services.AddApplicationCoreServices();
+
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
 {
-	app.UseSwagger();
-	app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseAuthorization();
