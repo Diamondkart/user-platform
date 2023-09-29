@@ -9,6 +9,8 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IServices
 
         Task<GetByUserNameResponse> GetByUserNameAsync(string userName);
 
-        Task<GetByUserIdResponse> GetByUserIdAsync(Guid userId);
+        Task<GetByUserIdResponse> GetByUserByUserIdAsync(Guid userId);
+
+        Task<IEnumerable<GetUsersResponse>> GetUsersAsync();
     }
 }

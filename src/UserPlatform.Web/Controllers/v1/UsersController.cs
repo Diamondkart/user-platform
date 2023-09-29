@@ -19,26 +19,32 @@ namespace UserPlatform.Web.Controllers.v1
         }
 
         [HttpGet]
-        [Route("")]
-        public async Task<IActionResult> Get()
+        [Route("GetUsers")]
+        public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
         {
-            return Ok();
+            // Retrieve the list of all users using your data access logic (e.g., a service or repository)
+            throw new UnauthorizedAccessException();
+            var users = _queryDispatcher.QueryAsync(new GetUsersRequest(), cancellationToken);
+            return Ok(users);
         }
 
         [HttpGet]
-        [Route("{userName}", Name = "GetUserByUserName")]
-        public async Task<IActionResult> GetByUserName()
+        [Route("{userName}", Name = "GetByUserName")]
+        public async Task<IActionResult> GetByUserName([FromRoute] string userName, CancellationToken cancellationToken)
         {
-            // _queryDispatcher
-            return Ok();
+            var userRequest = new GetByUserNameRequest { UserName = userName };
+            var users = _queryDispatcher.QueryAsync(userRequest, cancellationToken);
+            return Ok(users);
         }
 
         [HttpGet]
-        [Route("{userId}", Name = "GetUserByUserId")]
-        public async Task<IActionResult> GetyUserId([FromRoute] Guid userId)
+        [Route("{userId}", Name = "GetByUserId")]
+        public async Task<IActionResult> GetByUserId([FromRoute] Guid userId, CancellationToken cancellationToken)
         {
-            // _queryDispatcher
-            return Ok();
+            throw new NotImplementedException();
+            var request = new GetByUserIdRequest { UserId = userId };
+            var users = _queryDispatcher.QueryAsync(request, cancellationToken);
+            return Ok(users);
         }
 
         [HttpPost]
@@ -48,5 +54,10 @@ namespace UserPlatform.Web.Controllers.v1
             var uri = new Uri(Url.Link("GetUserByUserId", new { userId = result.UserId }));
             return Created(uri, result);
         }
+    }
+
+    public class UserRequest
+    {
+        public string userName { get; set; }
     }
 }
