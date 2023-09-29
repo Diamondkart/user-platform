@@ -21,19 +21,34 @@ namespace UserPlatform.ApplicationCore.Services
         public async Task<CreateUserResponse> CreateAsync(CreateUserRequest createUserRequest)
         {
             var userDetails = _mapper.Map<UserDetails>(createUserRequest);
+            if (await _userRepository.CheckIfUserIsUnique(userDetails))
+            {
+                throw new NotImplementedException("same user already exist.");
+            }
             var createdUser = await _userRepository.CreateAsync(userDetails);
             var createdUserResponse = _mapper.Map<CreateUserResponse>(createdUser);
             return createdUserResponse;
         }
 
-        public async Task<GetByUserIdResponse> GetByUserIdAsync(Guid userId)
+        public async Task<GetByUserIdResponse> GetByUserByUserIdAsync(Guid userId)
         {
-            return new GetByUserIdResponse();
+            var userDetails = await _userRepository.GetUserByUserIdAsync(userId);
+            var userResponse = _mapper.Map<GetByUserIdResponse>(userDetails);
+            return userResponse;
         }
 
         public async Task<GetByUserNameResponse> GetByUserNameAsync(string userName)
         {
-            return new GetByUserNameResponse();
+            var userDetails = await _userRepository.GetByUserNameAsync(userName);
+            var userResponse = _mapper.Map<GetByUserNameResponse>(userDetails);
+            return userResponse;
+        }
+
+        public async Task<IEnumerable<GetUsersResponse>> GetUsersAsync()
+        {
+            var userDetails = await _userRepository.GetUsersAsync();
+            var userResponse = _mapper.Map<IEnumerable<GetUsersResponse>>(userDetails);
+            return userResponse;
         }
     }
 }
