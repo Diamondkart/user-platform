@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UserPlatform.ApplicationCore.Models.Request;
-using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
+﻿using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
 using UserPlatform.Domain.Entities;
 using UserPlatform.Persistence.DBStorage;
 
@@ -36,13 +34,20 @@ namespace UserPlatform.Persistence.Repositories
 
         public async Task<UserDetails> GetUserByUserIdAsync(Guid userId)
         {
-           var result = _dBContext.Users.Where(w => w.UserId == userId).FirstOrDefault();
+            var result = _dBContext.Users.Where(w => w.UserId == userId).FirstOrDefault();
             return await Task.FromResult(result);
         }
 
         public async Task<IEnumerable<UserDetails>> GetUsersAsync()
         {
             return await Task.FromResult(_dBContext.Users.ToList());
+        }
+
+        public async Task<UserDetails> UpdateAsync(UserDetails userDetails)
+        {
+            _dBContext.Users.Update(userDetails);
+            await _dBContext.SaveChangesAsync();
+            return userDetails;
         }
     }
 }

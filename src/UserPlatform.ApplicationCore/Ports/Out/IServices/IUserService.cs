@@ -12,5 +12,7 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IServices
         Task<GetByUserIdResponse> GetByUserByUserIdAsync(Guid userId);
 
         Task<IEnumerable<GetUsersResponse>> GetUsersAsync();
+
+        Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest updateUserRequest);
     }
 }
