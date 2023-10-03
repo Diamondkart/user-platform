@@ -17,7 +17,8 @@ namespace UserPlatform.ApplicationCore.Mapper
             CreateMap<UserDetails, GetByUserIdResponse>();
             CreateMap<GetByUserNameRequest, UserDetails>();
             CreateMap<UserDetails, GetByUserNameResponse>();
-
+            CreateMap<UpdateUserRequest, UserDetails>();
+            CreateMap<UserDetails, UpdateUserResponse>();
         }
     }
 }

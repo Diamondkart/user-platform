@@ -1,4 +1,6 @@
-﻿using UserPlatform.Domain.Entities;
+﻿using UserPlatform.ApplicationCore.Models.Request;
+using UserPlatform.ApplicationCore.Models.Response;
+using UserPlatform.Domain.Entities;
 
 namespace UserPlatform.ApplicationCore.Ports.Out.IRepositories
 {
@@ -13,5 +15,6 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IRepositories
         Task<UserDetails> GetUserByUserIdAsync(Guid userId);
 
         Task<UserDetails> GetByUserNameAsync(string userName);
+        Task<UserDetails> UpdateAsync(UserDetails updateUserRequest);
     }
 }

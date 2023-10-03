@@ -50,5 +50,17 @@ namespace UserPlatform.ApplicationCore.Services
             var userResponse = _mapper.Map<IEnumerable<GetUsersResponse>>(userDetails);
             return userResponse;
         }
+
+        public async Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest updateUserRequest)
+        {
+            var userDetails = _mapper.Map<UserDetails>(updateUserRequest);
+            //if (await _userRepository.CheckIfUserIsUnique(userDetails))
+            //{
+            //    throw new NotImplementedException("same user already exist.");
+            //}
+            var createdUser = await _userRepository.UpdateAsync(userDetails);
+            var updateUserResponse = _mapper.Map<UpdateUserResponse>(createdUser);
+            return updateUserResponse;
+        }
     }
 }
