@@ -19,7 +19,7 @@ namespace UserPlatform.Web.Controllers.v1
         }
 
         [HttpGet]
-        [Route("GetUsers")]
+        [Route("")]
         public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
         {
             // Retrieve the list of all users using your data access logic (e.g., a service or repository)
@@ -29,16 +29,15 @@ namespace UserPlatform.Web.Controllers.v1
         }
 
         [HttpGet]
-        [Route("{userName}", Name = "GetByUserName")]
-        public async Task<IActionResult> GetByUserName([FromRoute] string userName, CancellationToken cancellationToken)
+        [Route("{UserName}", Name = "GetByUserName")]
+        public async Task<IActionResult> GetByUserName([FromRoute] GetByUserNameRequest request, CancellationToken cancellationToken)
         {
-            var userRequest = new GetByUserNameRequest { UserName = userName };
-            var users = await _queryDispatcher.QueryAsync(userRequest, cancellationToken);
+            var users = await _queryDispatcher.QueryAsync(request, cancellationToken);
             return Ok(users);
         }
 
         [HttpGet]
-        [Route("{userId}", Name = "GetByUserId")]
+        [Route("{userId:guid}", Name = "GetByUserId")]
         public async Task<IActionResult> GetByUserId([FromRoute] Guid userId, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -57,18 +56,13 @@ namespace UserPlatform.Web.Controllers.v1
         }
 
         [HttpPut]
-        [Route("{UserId}")]
-        public async Task<IActionResult> Update([FromBody] UpdateUserRequest updateUserRequest, [FromRoute] Guid UserId, CancellationToken cancellationToken)
+        [Route("{userId:guid}")]
+        public async Task<IActionResult> Update([FromBody] UpdateUserRequest updateUserRequest, [FromRoute] Guid userId, CancellationToken cancellationToken)
         {
-            updateUserRequest.UserId = UserId;
+            updateUserRequest.UserId = userId;
             var result = await _commandDispatcher.SendAsync(updateUserRequest, cancellationToken);
 
             return NoContent();
         }
-    }
-
-    public class UserRequest
-    {
-        public string userName { get; set; }
     }
 }

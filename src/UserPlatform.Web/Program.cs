@@ -1,12 +1,9 @@
-using FluentValidation.AspNetCore;
-using UserPlatform.ApplicationCore;
-using UserPlatform.Web.Extensions;
-using UserPlatform.Persistence;
-using UserPlatform.Persistence.DBStorage;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
-using Microsoft.AspNetCore.Diagnostics;
 using ExceptionHandling.CustomMiddlewares;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using UserPlatform.ApplicationCore;
+using UserPlatform.Persistence;
+using UserPlatform.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAppConfiguration(c => c.BuildConfiguration(args));
@@ -29,6 +26,12 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+//app.UseRouting();
+app.UseAuthorization();
+app.UseCors(options => options.AllowAnyOrigin());
+app.MapControllers();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
 {
@@ -36,8 +39,5 @@ if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();
