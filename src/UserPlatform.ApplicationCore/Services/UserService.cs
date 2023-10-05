@@ -3,6 +3,7 @@ using UserPlatform.ApplicationCore.Models.Request;
 using UserPlatform.ApplicationCore.Models.Response;
 using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
 using UserPlatform.ApplicationCore.Ports.Out.IServices;
+using UserPlatform.Domain.Constant;
 using UserPlatform.Domain.Entities;
 using UserPlatform.Domain.Exceptions;
 
@@ -24,8 +25,10 @@ namespace UserPlatform.ApplicationCore.Services
             var userDetails = _mapper.Map<UserDetails>(createUserRequest);
             if (await _userRepository.CheckIfUserIsUnique(userDetails))
             {
-                throw new RecordAlreadyExistsException();
+                throw new RecordAlreadyExistsException(Constant.RecordExistsErrorMessage);
             }
+            userDetails.ModifiedOn = DateTime.UtcNow;
+            userDetails.CreatedOn = DateTime.UtcNow;
             var createdUser = await _userRepository.CreateAsync(userDetails);
             var createdUserResponse = _mapper.Map<CreateUserResponse>(createdUser);
             return createdUserResponse;

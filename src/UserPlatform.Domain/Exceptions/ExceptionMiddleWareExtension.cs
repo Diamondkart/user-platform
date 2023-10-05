@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using UserPlatform.Domain.Constant;
 using UserPlatform.Domain.Exceptions;
 
 namespace ExceptionHandling.CustomMiddlewares
@@ -29,48 +28,23 @@ namespace ExceptionHandling.CustomMiddlewares
             }
         }
 
+        private static int GetStatusCode(Exception exception) =>
+        exception switch
+        {
+            RecordAlreadyExistsException => StatusCodes.Status409Conflict,
+            NotImplementedException => StatusCodes.Status501NotImplemented,
+            UnauthorizedAccessException => StatusCodes.Status501NotImplemented,
+            ApplicationException => StatusCodes.Status401Unauthorized,
+            _ => StatusCodes.Status500InternalServerError
+        };
+
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
-            var errorResponse = new ErrorResponse();
-
-            switch (exception)
-            {
-                case RecordAlreadyExistsException ex:
-                    context.Response.StatusCode = StatusCodes.Status409Conflict;
-                    errorResponse.Message = Constant.RecordExistsErrorMessage;
-                    break;
-
-                case NotImplementedException ex:
-                    context.Response.StatusCode = StatusCodes.Status501NotImplemented;
-                    errorResponse.Message = Constant.NotImplementedErrorMessage;
-                    break;
-
-                case UnauthorizedAccessException ex:
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    errorResponse.Message = Constant.UnAuthorizeErrorMessage;
-                    break;
-
-                case ApplicationException ex:
-                    if (ex.Message.Contains(Constant.InvalidTokenKey))
-                    {
-                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                        errorResponse.Message = ex.Message;
-                        break;
-                    }
-                    errorResponse.Message = ex.Message;
-                    break;
-
-                default:
-                    errorResponse.Message = Constant.InternalServerErrorMessage;
-                    break;
-            }
-
-            _logger.LogError(exception, "An exception occurred.");
-
-            var result = JsonSerializer.Serialize(errorResponse);
+            _logger.LogError(exception, $"An exception occurred, exception context: {context}");
+            context.Response.ContentType = "application/problem+json";
+            context.Response.StatusCode = GetStatusCode(exception);
+            var errorResponse = new ErrorResponse { Message = exception.Message ?? $"Exception occured." };
+            var result = JsonSerializer.Serialize(new { errors = errorResponse });
             await context.Response.WriteAsync(result);
         }
     }

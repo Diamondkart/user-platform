@@ -1,6 +1,6 @@
 using ExceptionHandling.CustomMiddlewares;
+using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
 using UserPlatform.ApplicationCore;
 using UserPlatform.Persistence;
 using UserPlatform.Web.Extensions;
@@ -21,8 +21,10 @@ builder.Services.AddPersistenceBuilderServices();
 // ApplicationCore
 builder.Services.AddApplicationCoreServices();
 
+builder.Services.UseFluentValidation();
+
 builder.Services.AddControllers()
-    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
+    .UseApiBehaviorOptions();
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -38,6 +40,5 @@ if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.Run();

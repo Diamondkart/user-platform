@@ -1,4 +1,7 @@
-﻿using UserPlatform.ApplicationCore;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace UserPlatform.Web.Extensions
 {
@@ -8,9 +11,51 @@ namespace UserPlatform.Web.Extensions
         {
             return services;
         }
-		public static bool IsLocal(this IHostEnvironment hostEnvironment)
-		{
-			return hostEnvironment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase);
-		}
-	}
+
+        public static bool IsLocal(this IHostEnvironment hostEnvironment)
+        {
+            return hostEnvironment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase);
+        }
+        public static IServiceCollection UseFluentValidation(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<Program>();
+            return services;
+        }
+
+        public static IMvcBuilder UseApiBehaviorOptions(this IMvcBuilder mvcBuilder)
+        {
+            mvcBuilder.ConfigureApiBehaviorOptions(options =>
+             {
+                 options.InvalidModelStateResponseFactory = context =>
+                 {
+                     // Key is the model property name
+                     var fieldErrors = new List<KeyValuePair<string, string[]>>();
+                     foreach (var modelStateKey in context.ModelState.Keys)
+                     {
+                         var modelStateVal = context.ModelState[modelStateKey];
+                         if (modelStateVal?.ValidationState == ModelValidationState.Invalid)
+                         {
+                             var isValidErrorMessage = modelStateVal.Errors;
+                             KeyValuePair<string, string[]> errorKeyValue;
+                             var errors = modelStateVal.Errors.Select(x => x.ErrorMessage).ToArray();
+                             errorKeyValue = KeyValuePair.Create(modelStateKey, errors);
+                             fieldErrors.Add(errorKeyValue);
+                         }
+                     }
+
+                     var errorResult = new
+                     {
+                         Errors = fieldErrors.ToDictionary(x => x.Key, x => x.Value)
+                     };
+
+                     return new BadRequestObjectResult(errorResult)
+                     {
+                         ContentTypes = { "application/problem+json", "application/problem+xml" }
+                     };
+                 };
+             });
+            return mvcBuilder;
+        }
+    }
 }
