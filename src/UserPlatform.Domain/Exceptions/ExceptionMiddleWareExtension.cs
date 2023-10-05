@@ -1,78 +1,77 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Net;
 using System.Text.Json;
+using UserPlatform.Domain.Constant;
+using UserPlatform.Domain.Exceptions;
 
-namespace ExceptionHandling.CustomMiddlewares;
-
-public class ExceptionHandlingMiddleware
+namespace ExceptionHandling.CustomMiddlewares
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-
-    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+    public class ExceptionHandlingMiddleware
     {
-        _next = next;
-        _logger = logger;
-    }
+        private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-    public async Task InvokeAsync(HttpContext httpContext)
-    {
-        try
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
         {
-            await _next(httpContext);
+            _next = next;
+            _logger = logger;
         }
-        catch (Exception ex)
+
+        public async Task InvokeAsync(HttpContext httpContext)
         {
-            await HandleExceptionAsync(httpContext, ex);
+            try
+            {
+                await _next(httpContext);
+            }
+            catch (Exception ex)
+            {
+                await HandleExceptionAsync(httpContext, ex);
+            }
         }
-    }
 
-    private async Task HandleExceptionAsync(HttpContext context, Exception exception)
-    {
-        context.Response.ContentType = "application/json";
-        var response = context.Response;
-
-        var errorResponse = new ErrorResponse
+        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            Success = false
-        };
-        switch (exception)
-        {
-            case UnauthorizedAccessException _:
-                response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                errorResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
-                errorResponse.Message = "Unauthorized access!";
-                break;
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-            case ApplicationException ex:
-                if (ex.Message.Contains("Invalid Token"))
-                {
-                    response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    errorResponse.StatusCode = (int)HttpStatusCode.Forbidden;
+            var errorResponse = new ErrorResponse();
+
+            switch (exception)
+            {
+                case RecordAlreadyExistsException ex:
+                    context.Response.StatusCode = StatusCodes.Status409Conflict;
+                    errorResponse.Message = Constant.RecordExistsErrorMessage;
+                    break;
+
+                case NotImplementedException ex:
+                    context.Response.StatusCode = StatusCodes.Status501NotImplemented;
+                    errorResponse.Message = Constant.NotImplementedErrorMessage;
+                    break;
+
+                case UnauthorizedAccessException ex:
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    errorResponse.Message = Constant.UnAuthorizeErrorMessage;
+                    break;
+
+                case ApplicationException ex:
+                    if (ex.Message.Contains(Constant.InvalidTokenKey))
+                    {
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        errorResponse.Message = ex.Message;
+                        break;
+                    }
                     errorResponse.Message = ex.Message;
                     break;
-                }
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
-                errorResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                errorResponse.Message = ex.Message;
-                break;
 
-            default:
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                errorResponse.StatusCode = (int)HttpStatusCode.InternalServerError;
-                errorResponse.Message = "Internal server error!";
-                break;
+                default:
+                    errorResponse.Message = Constant.InternalServerErrorMessage;
+                    break;
+            }
+
+            _logger.LogError(exception, "An exception occurred.");
+
+            var result = JsonSerializer.Serialize(errorResponse);
+            await context.Response.WriteAsync(result);
         }
-        _logger.LogError(exception.Message);
-        var result = JsonSerializer.Serialize(errorResponse);
-        await context.Response.WriteAsync(result);
     }
-}
-
-public class ErrorResponse
-{
-    public bool Success { get; set; }
-    public string Message { get; set; }
-    public int StatusCode { get; set; }
 }
