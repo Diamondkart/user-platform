@@ -36,11 +36,8 @@ namespace UserPlatform.Web.Extensions
                          var modelStateVal = context.ModelState[modelStateKey];
                          if (modelStateVal?.ValidationState == ModelValidationState.Invalid)
                          {
-                             var isValidErrorMessage = modelStateVal.Errors;
-                             KeyValuePair<string, string[]> errorKeyValue;
                              var errors = modelStateVal.Errors.Select(x => x.ErrorMessage).ToArray();
-                             errorKeyValue = KeyValuePair.Create(modelStateKey, errors);
-                             fieldErrors.Add(errorKeyValue);
+                             fieldErrors.Add(KeyValuePair.Create(modelStateKey, errors));
                          }
                      }
 
