@@ -4,6 +4,7 @@ using UserPlatform.ApplicationCore.Models.Response;
 using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
 using UserPlatform.ApplicationCore.Ports.Out.IServices;
 using UserPlatform.Domain.Entities;
+using UserPlatform.Domain.Exceptions;
 
 namespace UserPlatform.ApplicationCore.Services
 {
@@ -23,7 +24,7 @@ namespace UserPlatform.ApplicationCore.Services
             var userDetails = _mapper.Map<UserDetails>(createUserRequest);
             if (await _userRepository.CheckIfUserIsUnique(userDetails))
             {
-                throw new NotImplementedException("same user already exist.");
+                throw new RecordAlreadyExistsException();
             }
             var createdUser = await _userRepository.CreateAsync(userDetails);
             var createdUserResponse = _mapper.Map<CreateUserResponse>(createdUser);
@@ -54,10 +55,6 @@ namespace UserPlatform.ApplicationCore.Services
         public async Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest updateUserRequest)
         {
             var userDetails = _mapper.Map<UserDetails>(updateUserRequest);
-            //if (await _userRepository.CheckIfUserIsUnique(userDetails))
-            //{
-            //    throw new NotImplementedException("same user already exist.");
-            //}
             var createdUser = await _userRepository.UpdateAsync(userDetails);
             var updateUserResponse = _mapper.Map<UpdateUserResponse>(createdUser);
             return updateUserResponse;

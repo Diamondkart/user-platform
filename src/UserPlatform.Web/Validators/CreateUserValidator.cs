@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 using UserPlatform.ApplicationCore.Models.Request;
-using UserPlatform.Persistence.DBStorage;
+using UserPlatform.Domain.Constant;
 
 namespace UserPlatform.Web.Validators
 {
@@ -15,28 +13,26 @@ namespace UserPlatform.Web.Validators
         {
             RuleFor(x => x.UserName)
                 .Must(x => x?.Trim().Length > 3)
-                .WithMessage("UserName must have at least 3 characters.");
+                .WithMessage(Constant.EmptyUserNameErrorMessage);
             RuleFor(x => x.FirstName)
                .NotEmpty()
-               .WithMessage("FirstName can not be empty.");
+               .WithMessage(Constant.EmptyFirstNameErrorMessage);
 
             RuleFor(x => x.MobileNo.ToString())
                 .NotEmpty()
-                .WithMessage("MobileNo can not be empty.")
-                .Matches(@"^\d{10}$")
-                .WithMessage("Mobile number should be 10 digits.");
-
+                .WithMessage(Constant.EmptyMobileErrorMessage)
+                .Matches(Constant.MobileNumberPattern)
+                .WithMessage(Constant.InvalidMobileErrorMessage);
 
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("Email can not be empty.")
-                .Matches(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
-                .WithMessage("Invalid email address.");
+                .WithMessage(Constant.EmptyEmailErrorMessage)
+                .Matches(Constant.EmailPattern)
+                .WithMessage(Constant.InvalidEmailErrorMessage);
 
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .WithMessage("Password can not be empty.");          
-
-        }       
+                .WithMessage(Constant.EmptyPasswordErrorMessage);
+        }
     }
 }

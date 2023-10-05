@@ -23,7 +23,6 @@ namespace UserPlatform.Web.Controllers.v1
         public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
         {
             // Retrieve the list of all users using your data access logic (e.g., a service or repository)
-            //  throw new UnauthorizedAccessException();
             var users = await _queryDispatcher.QueryAsync(new GetUsersRequest(), cancellationToken);
             return Ok(users);
         }
@@ -51,7 +50,7 @@ namespace UserPlatform.Web.Controllers.v1
         {
             var result = await _commandDispatcher.SendAsync(request, cancellationToken);
 
-            var uri = new Uri(Url.Link("GetUserByUserId", new { userId = result.UserId }));
+            var uri = new Uri(Url.Link("GetByUserId", new { userId = result.UserId }));
             return Created(uri, result);
         }
 

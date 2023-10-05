@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace UserPlatform.Domain.Exceptions
 {
-    public class NotFoundException
+    public class ErrorResponse
     {
+        public string Message { get; set; }
     }
 }
