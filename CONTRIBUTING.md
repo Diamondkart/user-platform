@@ -3,7 +3,6 @@ Welcome to Diamonkart. This is an ecommerce application to cater broad range of 
 Before you start contributing, please read the guidelines.
 
 ### Guidelines
-
  - [Feature Requests](#feature)
 
  ## <a name="feature"></a> Feature request
