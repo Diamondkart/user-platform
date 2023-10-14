@@ -2,4 +2,4 @@
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-appsettings.Local.json
+src/UserPlatform.Web/appsettings.Local.json
