@@ -8,7 +8,7 @@ Before you start contributing, please read the guidelines.
 
  ## <a name="feature"></a> Feature request
  Ideally, it should be included in a separate branch. 
- Git commit should always starts with author name.<br/>
+ Git commit should always starts with author name <br />
  e,g `git commit -m "[Author] commit message"`
 
 
