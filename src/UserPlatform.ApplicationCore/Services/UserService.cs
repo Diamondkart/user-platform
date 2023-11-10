@@ -55,12 +55,36 @@ namespace UserPlatform.ApplicationCore.Services
             return userResponse;
         }
 
+        public async Task<bool> UpdateNameAsync(UpdateNameRequest updateNameRequest)
+        {
+            await ValidateUpdateUser(updateNameRequest.UserId);
+            var userDetails = _mapper.Map<UserDetails>(updateNameRequest);
+            var isUserNameUpdated = await _userRepository.UpdateNameAsync(userDetails);
+            return isUserNameUpdated;
+        }
+
+        public async Task<bool> UpdatePhoneNumberAsync(UpdatePhoneNumberRequest updatePhoneNumberRequest)
+        {
+            await ValidateUpdateUser(updatePhoneNumberRequest.UserId);
+            var userDetails = _mapper.Map<UserDetails>(updatePhoneNumberRequest);
+            var isUserPhoneUpdated = await _userRepository.UpdatePhoneNumberAsync(userDetails);
+            return isUserPhoneUpdated;
+        }
+
         public async Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest updateUserRequest)
         {
             var userDetails = _mapper.Map<UserDetails>(updateUserRequest);
             var createdUser = await _userRepository.UpdateAsync(userDetails);
             var updateUserResponse = _mapper.Map<UpdateUserResponse>(createdUser);
             return updateUserResponse;
+        }
+
+        private async Task ValidateUpdateUser(Guid userId)
+        {
+            if (await _userRepository.GetUserByUserIdAsync(userId) == null)
+            {
+                throw new NotFoundException(string.Format(Constant.UserIdNotFound, userId));
+            }
         }
     }
 }

@@ -16,5 +16,7 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IRepositories
 
         Task<UserDetails> GetByUserNameAsync(string userName);
         Task<UserDetails> UpdateAsync(UserDetails updateUserRequest);
+        Task<bool> UpdatePhoneNumberAsync(UserDetails updateUserRequest);
+        Task<bool> UpdateNameAsync(UserDetails updateUserRequest);
     }
 }

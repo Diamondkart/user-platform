@@ -14,5 +14,7 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IServices
         Task<IEnumerable<GetUsersResponse>> GetUsersAsync();
 
         Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest updateUserRequest);
+        Task<bool> UpdatePhoneNumberAsync(UpdatePhoneNumberRequest updatePhoneNumberRequest);
+        Task<bool> UpdateNameAsync(UpdateNameRequest updateNameRequest);
     }
 }

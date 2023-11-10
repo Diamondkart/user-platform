@@ -1,4 +1,5 @@
-﻿using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
+﻿using Microsoft.EntityFrameworkCore;
+using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
 using UserPlatform.Domain.Entities;
 using UserPlatform.Persistence.DBStorage;
 
@@ -34,7 +35,8 @@ namespace UserPlatform.Persistence.Repositories
 
         public async Task<UserDetails> GetUserByUserIdAsync(Guid userId)
         {
-            var result = _dBContext.Users.Where(w => w.UserId == userId).FirstOrDefault();
+            var result = _dBContext.Users.AsNoTracking()
+                .Where(w => w.UserId == userId)?.FirstOrDefault();
             return await Task.FromResult(result);
         }
 
@@ -48,6 +50,24 @@ namespace UserPlatform.Persistence.Repositories
             _dBContext.Users.Update(userDetails);
             await _dBContext.SaveChangesAsync();
             return userDetails;
+        }
+
+        public async Task<bool> UpdateNameAsync(UserDetails updateUserRequest)
+        {
+            _dBContext.Attach(updateUserRequest);
+            _dBContext.Entry(updateUserRequest).Property(e => e.FirstName).IsModified = true;
+            _dBContext.Entry(updateUserRequest).Property(e => e.LastName).IsModified = true;
+            _dBContext.Entry(updateUserRequest).Property(e => e.MiddleName).IsModified = true;
+            var isUpdated = await _dBContext.SaveChangesAsync();
+            return isUpdated == 1;
+        }
+
+        public async Task<bool> UpdatePhoneNumberAsync(UserDetails updateUserRequest)
+        {
+            _dBContext.Users.Attach(updateUserRequest);
+            _dBContext.Entry(updateUserRequest).Property(e => e.MobileNo).IsModified = true;
+            var isUpdated = await _dBContext.SaveChangesAsync();
+            return isUpdated == 1;
         }
     }
 }

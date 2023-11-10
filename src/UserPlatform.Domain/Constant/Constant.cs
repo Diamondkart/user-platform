@@ -8,6 +8,7 @@
         public const string InvalidTokenKey = "Invalid Token";
 
         #region Validation Error Mesaage
+
         public const string UnAuthorizeErrorMessage = "Unauthorized access!";
         public const string EmptyUserNameErrorMessage = "UserName must have at least 3 characters.";
         public const string InvalidEmailErrorMessage = "Invalid email address.";
@@ -19,8 +20,10 @@
         public const string RecordExistsErrorMessage = "Same record already exists.";
         public const string InternalServerErrorMessage = "Internal server error!";
         public const string NotImplementedErrorMessage = "The requested functionality is not implemented.";
+        public const string UnableToUpdateNumber = "Unable to update phone number.";
+        public const string UnableToUpdateName = "Unable to update name.";
+        public const string UserIdNotFound = "User With {0} not found";
 
-        #endregion
-
+        #endregion Validation Error Mesaage
     }
 }

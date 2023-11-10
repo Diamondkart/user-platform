@@ -35,6 +35,7 @@ namespace ExceptionHandling.CustomMiddlewares
             NotImplementedException => StatusCodes.Status501NotImplemented,
             UnauthorizedAccessException => StatusCodes.Status501NotImplemented,
             ApplicationException => StatusCodes.Status401Unauthorized,
+            NotFoundException => StatusCodes.Status404NotFound,
             _ => StatusCodes.Status500InternalServerError
         };
 

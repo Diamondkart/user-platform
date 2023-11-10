@@ -19,6 +19,9 @@ namespace UserPlatform.ApplicationCore.Mapper
             CreateMap<UserDetails, GetByUserNameResponse>();
             CreateMap<UpdateUserRequest, UserDetails>();
             CreateMap<UserDetails, UpdateUserResponse>();
+            CreateMap<UpdatePhoneNumberRequest, UserDetails>()
+                .ForPath(dest => dest.MobileNo, opt => opt.MapFrom(src => src.PhoneNumber));
+            CreateMap<UpdateNameRequest, UserDetails>();
         }
     }
 }

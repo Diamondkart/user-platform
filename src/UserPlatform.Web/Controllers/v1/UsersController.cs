@@ -2,6 +2,7 @@
 using UserPlatform.ApplicationCore.Commands;
 using UserPlatform.ApplicationCore.Models.Request;
 using UserPlatform.ApplicationCore.Queries;
+using UserPlatform.Domain.Constant;
 
 namespace UserPlatform.Web.Controllers.v1
 {
@@ -61,6 +62,32 @@ namespace UserPlatform.Web.Controllers.v1
             updateUserRequest.UserId = userId;
             var result = await _commandDispatcher.SendAsync(updateUserRequest, cancellationToken);
 
+            return NoContent();
+        }
+
+        [HttpPatch]
+        [Route("{userId:guid}/PhoneNumber")]
+        public async Task<IActionResult> UpdatePhoneNumber([FromBody] UpdatePhoneNumberRequest updatePhoneNumberRequest, [FromRoute] Guid userId, CancellationToken cancellationToken)
+        {
+            updatePhoneNumberRequest.UserId = userId;
+            var isPhoneNumberUpdated = await _commandDispatcher.SendAsync<bool>(updatePhoneNumberRequest, cancellationToken);
+            if (!isPhoneNumberUpdated)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, Constant.UnableToUpdateNumber);
+            }
+            return NoContent();
+        }
+
+        [HttpPatch]
+        [Route("{userId:guid}/Name")]
+        public async Task<IActionResult> UpdateName([FromBody] UpdateNameRequest updateNameRequest, [FromRoute] Guid userId, CancellationToken cancellationToken)
+        {
+            updateNameRequest.UserId = userId;
+            var isUserNameUpdated = await _commandDispatcher.SendAsync(updateNameRequest, cancellationToken);
+            if (!isUserNameUpdated)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, Constant.UnableToUpdateName);
+            }
             return NoContent();
         }
     }
