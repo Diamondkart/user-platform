@@ -19,5 +19,7 @@ namespace UserPlatform.Domain.Entities
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
         public bool IsLocked { get; set; }
+        public string Salt { get; set; }
+        
     }
 }

@@ -9,7 +9,8 @@ namespace UserPlatform.ApplicationCore.Mapper
     {
         public UserMapper()
         {
-            CreateMap<CreateUserRequest, UserDetails>();
+            CreateMap<CreateUserRequest, UserDetails>()
+                .ForPath(dest => dest.Password, opt => opt.MapFrom(src => src.SecurePassword));
             CreateMap<UserDetails, CreateUserResponse>();
             CreateMap<GetUsersRequest, UserDetails>();
             CreateMap<UserDetails, GetUsersResponse>();

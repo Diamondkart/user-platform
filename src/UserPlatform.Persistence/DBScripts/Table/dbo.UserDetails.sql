@@ -54,3 +54,21 @@ END
 GO
 
 -- maintain to write all alter query for [UserDetails] below.
+
+IF NOT EXISTS(SELECT 1 FROM sys.columns 
+          WHERE Name = N'Salt'
+          AND Object_ID = Object_ID(N'dbo.UserDetails'))
+
+BEGIN
+	ALTER TABLE [dbo].[UserDetails] 
+	ADD Salt NVARCHAR(512) NOT NULL
+END
+IF NOT EXISTS(SELECT 1 FROM sys.columns 
+          WHERE Name = N'PasswordModifiedOn'
+          AND Object_ID = Object_ID(N'dbo.UserDetails'))
+
+BEGIN
+	ALTER TABLE [dbo].[UserDetails] 
+	ADD PasswordModifiedOn [datetime] NULL
+END
+
