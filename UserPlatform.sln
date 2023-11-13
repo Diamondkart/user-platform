@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPlatform.Web", "UserPlatform.Web\UserPlatform.Web.csproj", "{FA3A8C81-2CF6-4C0E-A3B9-5242502681B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPlatform.Web", "src\UserPlatform.Web\UserPlatform.Web.csproj", "{FA3A8C81-2CF6-4C0E-A3B9-5242502681B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPlatform.Domain", "UserPlatform.Domain\UserPlatform.Domain.csproj", "{3FE76051-5AAF-42DD-8B1F-651604E6124C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPlatform.Domain", "src\UserPlatform.Domain\UserPlatform.Domain.csproj", "{3FE76051-5AAF-42DD-8B1F-651604E6124C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPlatform.ApplicationCore", "UserPlatform.ApplicationCore\UserPlatform.ApplicationCore.csproj", "{7C952E4F-EC87-44E7-8E84-3B6148ECF367}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPlatform.ApplicationCore", "src\UserPlatform.ApplicationCore\UserPlatform.ApplicationCore.csproj", "{7C952E4F-EC87-44E7-8E84-3B6148ECF367}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPlatform.Persistence", "UserPlatform.Persistence\UserPlatform.Persistence.csproj", "{577292A4-814E-4DA4-ADB5-730CD70A49C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserPlatform.Persistence", "src\UserPlatform.Persistence\UserPlatform.Persistence.csproj", "{577292A4-814E-4DA4-ADB5-730CD70A49C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPlatform.Web.Unit.Tests", "..\test\Platform.Web.UnitTests\UserPlatform.Web.Unit.Tests.csproj", "{EEDBBFA7-D943-483B-B3A1-B20CA81C0886}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPlatform.Web.Unit.Tests", "test\Platform.Web.UnitTests\UserPlatform.Web.Unit.Tests.csproj", "{EEDBBFA7-D943-483B-B3A1-B20CA81C0886}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
