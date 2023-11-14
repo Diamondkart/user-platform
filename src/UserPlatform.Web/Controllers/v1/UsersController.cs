@@ -91,19 +91,6 @@ namespace UserPlatform.Web.Controllers.v1
             return NoContent();
         }
 
-        [HttpPost]
-        [Route("GeneratePassword", Name = "GeneratePassword")]
-        public async Task<IActionResult> GeneratePassword([FromBody] GeneratePasswordRequest generatePasswordRequest, [FromQuery] string Token, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("ChangePassword", Name = "RequestChangePassword")]
-        public async Task<IActionResult> RequestChangePassword([FromBody] ChangePasswordRequest changePasswordRequest, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

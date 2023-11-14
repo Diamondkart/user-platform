@@ -10,5 +10,6 @@ namespace UserPlatform.Persistence.DBStorage
         }
 
         public DbSet<UserDetails> Users { get; set; }
+        public DbSet<ChangePassword> ChangePassword { get; set; }
     }
 }

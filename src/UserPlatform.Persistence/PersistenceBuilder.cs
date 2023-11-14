@@ -13,6 +13,7 @@ namespace UserPlatform.Persistence
         public static IServiceCollection AddPersistenceBuilderServices(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ISelfServiceRepository, SelfServiceRepository>();
             return services;
         }
 

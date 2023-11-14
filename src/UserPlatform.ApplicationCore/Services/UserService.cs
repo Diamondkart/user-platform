@@ -3,6 +3,7 @@ using UserPlatform.ApplicationCore.Models.Request;
 using UserPlatform.ApplicationCore.Models.Response;
 using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
 using UserPlatform.ApplicationCore.Ports.Out.IServices;
+using UserPlatform.ApplicationCore.Utils;
 using UserPlatform.Domain.Constant;
 using UserPlatform.Domain.Entities;
 using UserPlatform.Domain.Exceptions;
@@ -78,6 +79,8 @@ namespace UserPlatform.ApplicationCore.Services
             var updateUserResponse = _mapper.Map<UpdateUserResponse>(createdUser);
             return updateUserResponse;
         }
+
+        
 
         private async Task ValidateUpdateUser(Guid userId)
         {

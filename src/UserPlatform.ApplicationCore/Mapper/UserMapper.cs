@@ -23,6 +23,10 @@ namespace UserPlatform.ApplicationCore.Mapper
             CreateMap<UpdatePhoneNumberRequest, UserDetails>()
                 .ForPath(dest => dest.MobileNo, opt => opt.MapFrom(src => src.PhoneNumber));
             CreateMap<UpdateNameRequest, UserDetails>();
+            CreateMap<ChangePassword, ChangePasswordResponse>();
+            CreateMap<GeneratePasswordRequest, UserDetails>();
+            CreateMap<GeneratePasswordRequest, ChangePassword>();
+            CreateMap<VerifyUserCredRequest, UserDetails>();
         }
     }
 }

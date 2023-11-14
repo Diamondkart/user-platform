@@ -23,6 +23,9 @@
         public const string UnableToUpdateNumber = "Unable to update phone number.";
         public const string UnableToUpdateName = "Unable to update name.";
         public const string UserIdNotFound = "User With {0} not found";
+        public const string InvalidUserNameOrPassword = "Either UserName or Password is invalid.";
+        public const string InvalidToken = "Invalid token";
+        public const string TokenExpired = "Token expired";
 
         #endregion Validation Error Mesaage
     }

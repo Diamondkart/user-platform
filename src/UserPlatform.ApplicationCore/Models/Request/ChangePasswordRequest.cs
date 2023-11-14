@@ -10,7 +10,7 @@ namespace UserPlatform.ApplicationCore.Models.Request
 }
 
 /*
- * PasswordChangeId, UserId, TempPassword, ExpireOn, Token, IP, MacAddress, Client
+ * PasswordChangeId, UserId, TempPassword, ExpireOn, Token
  * 
  * 
  */

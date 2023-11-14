@@ -15,6 +15,8 @@ namespace UserPlatform.ApplicationCore
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
             services.AddScoped<IQueryDispatcher, QueryDispatcher>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISelfService, SelfService>();
+            
             return services;
         }
     }
