@@ -39,10 +39,10 @@ GO
 -- maintain to write all alter query for [UserDetails] below.
 GO    
 IF NOT EXISTS (SELECT name FROM sys.indexes  
-            WHERE name = N'IX_ChangePasswordToken')     
+            WHERE name = N'IX_ChangePassword_Token_TempPassword')     
 BEGIN     
-	CREATE NONCLUSTERED INDEX IX_ChangePasswordToken   
-		ON dbo.ChangePassword (Token)
+	CREATE NONCLUSTERED INDEX IX_ChangePassword_Token_TempPassword   
+		ON dbo.ChangePassword (Token, TempPassword)
 END
 GO  
 

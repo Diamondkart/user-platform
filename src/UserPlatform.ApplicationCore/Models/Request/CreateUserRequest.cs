@@ -1,5 +1,6 @@
 ﻿using UserPlatform.ApplicationCore.Commands;
 using UserPlatform.ApplicationCore.Models.Response;
+using static UserPlatform.ApplicationCore.Utils.Utils;
 
 namespace UserPlatform.ApplicationCore.Models.Request
 {
@@ -21,9 +22,9 @@ namespace UserPlatform.ApplicationCore.Models.Request
             set
             {
                 _password = value;
-                var hashedPassword = Utils.Utils.GetSecurePassword(value);
-                SecurePassword = hashedPassword.Item1;
-                Salt = hashedPassword.Item2;
+                var hashedPassword = GetSecurePassword(value);
+                SecurePassword = hashedPassword.Password;
+                Salt = hashedPassword.Salt;
             }
         }
 
@@ -34,8 +35,8 @@ namespace UserPlatform.ApplicationCore.Models.Request
         public DateTime ModifiedOn { get; set; }
         public bool IsLocked { get; set; }
 
-        public string? SecurePassword { get; set; }
+        public string SecurePassword { get; set; }
 
-        public string? Salt { get; set; }
+        public string Salt { get; set; }
     }
 }

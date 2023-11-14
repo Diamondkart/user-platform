@@ -6,6 +6,7 @@ using UserPlatform.ApplicationCore.Ports.Out.IServices;
 using UserPlatform.Domain.Constant;
 using UserPlatform.Domain.Entities;
 using UserPlatform.Domain.Exceptions;
+using static UserPlatform.ApplicationCore.Utils.Utils;
 
 namespace UserPlatform.ApplicationCore.Services
 {
@@ -29,14 +30,14 @@ namespace UserPlatform.ApplicationCore.Services
             {
                 throw new NotFoundException(string.Format(Constant.UserIdNotFound, changePasswordRequest.UserIdentifier));
             }
-            var tokenObj = Utils.Utils.GetSecurePassword(Guid.NewGuid().ToString());
-            var token = Utils.Utils.GetFullToken(new List<string> { tokenObj.Item2, tokenObj.Item1 });
+            var tokenObj = GenerateToken(Guid.NewGuid().ToString());
+            var token = GenerateFullToken(new List<string> { tokenObj.Password });
             var changePassword = new ChangePassword
             {
                 UserId = userDetails.UserId,
                 ExpireOn = DateTime.UtcNow.AddMinutes(120),
                 Token = token,
-                TempPassword = Utils.Utils.GenerateRandomPassword(),
+                TempPassword = GenerateRandomPassword()
             };
             var passwordChanged = await _selfServiceRepository.RequestChangePasswordAsync(changePassword);
             var changePasswordResponse = _mapper.Map<ChangePasswordResponse>(passwordChanged);
@@ -70,7 +71,7 @@ namespace UserPlatform.ApplicationCore.Services
                 // For backend api only, client application needs to make their own message.
                 throw new NotFoundException(string.Format(Constant.UserIdNotFound, userDetails.UserName));
             }
-            var securedPassword = Utils.Utils.GetSecurePassword(verifyUserCredRequest.Password, userObj.Salt).Item1;
+            var securedPassword = GetSecurePassword(verifyUserCredRequest.Password, userObj.Salt).Password;
 
             if (securedPassword != userObj.Password)
             {

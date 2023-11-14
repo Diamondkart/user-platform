@@ -1,4 +1,5 @@
 ﻿using UserPlatform.ApplicationCore.Commands;
+using static UserPlatform.ApplicationCore.Utils.Utils;
 
 namespace UserPlatform.ApplicationCore.Models.Request
 {
@@ -15,9 +16,9 @@ namespace UserPlatform.ApplicationCore.Models.Request
             }
             set
             {
-                var hashedPassword = Utils.Utils.GetSecurePassword(value);
-                _password = hashedPassword.Item1;
-                Salt = hashedPassword.Item2;
+                var hashedPassword = GetSecurePassword(value);
+                _password = hashedPassword.Password;
+                Salt = hashedPassword.Salt;
             }
         }
 

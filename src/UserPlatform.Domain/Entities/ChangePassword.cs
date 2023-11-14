@@ -11,6 +11,7 @@ namespace UserPlatform.Domain.Entities
 
         public Guid UserId { get; set; }
         public string TempPassword { get; set; }
+
         public string Token { get; set; }
         public DateTime ExpireOn { get; set; }
     }
