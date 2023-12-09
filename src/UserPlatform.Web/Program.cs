@@ -1,6 +1,7 @@
 using ExceptionHandling.CustomMiddlewares;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Serilog;
 using UserPlatform.ApplicationCore;
 using UserPlatform.Persistence;
 using UserPlatform.Web.Extensions;
@@ -9,6 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAppConfiguration(c => c.BuildConfiguration(args));
 
 // Add services to the container.
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

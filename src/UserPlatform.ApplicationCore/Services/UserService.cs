@@ -45,6 +45,10 @@ namespace UserPlatform.ApplicationCore.Services
         public async Task<GetByUserNameResponse> GetByUserNameAsync(string userName)
         {
             var userDetails = await _userRepository.GetByUserNameAsync(userName);
+            if (userDetails ==null)
+            {
+                throw new NotFoundException(string.Format(Constant.UserNameNotFound, userName));
+            }
             var userResponse = _mapper.Map<GetByUserNameResponse>(userDetails);
             return userResponse;
         }

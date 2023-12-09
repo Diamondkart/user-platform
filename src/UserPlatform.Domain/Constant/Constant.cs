@@ -26,6 +26,7 @@
         public const string InvalidUserNameOrPassword = "Either UserName or Password is invalid.";
         public const string InvalidToken = "Invalid token";
         public const string TokenExpired = "Token expired";
+        public const string UserNameNotFound = "User Name With {0} not found";
 
         #endregion Validation Error Mesaage
     }
