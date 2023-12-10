@@ -8,6 +8,7 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IRepositories
 
         Task<bool> GeneratePasswordAsync(UserDetails userDetails);
         Task<ChangePassword> GetChangePasswordByTokenPasswordAsync(ChangePassword changePassword);
+        Task<bool> UpdateIsValidChangePasswordAsync(ChangePassword changePassword);
         
     }
 }

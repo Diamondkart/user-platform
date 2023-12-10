@@ -1,5 +1,6 @@
 ﻿using UserPlatform.ApplicationCore.Models.Request;
 using UserPlatform.ApplicationCore.Models.Response;
+using UserPlatform.Domain.Entities;
 
 namespace UserPlatform.ApplicationCore.Ports.Out.IServices
 {
@@ -9,7 +10,7 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IServices
 
         Task<bool> GeneratePasswordAsync(GeneratePasswordRequest generatePasswordRequest);
         Task<bool> VerifyUserCredAsync(VerifyUserCredRequest verifyUserCredRequest);
-
+        
 
     }
 }

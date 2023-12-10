@@ -37,7 +37,8 @@ namespace UserPlatform.ApplicationCore.Services
                 UserId = userDetails.UserId,
                 ExpireOn = DateTime.UtcNow.AddMinutes(120),
                 Token = token,
-                TempPassword = GenerateRandomPassword()
+                TempPassword = GenerateRandomPassword(),
+                IsValid = true
             };
             var passwordChanged = await _selfServiceRepository.RequestChangePasswordAsync(changePassword);
             var changePasswordResponse = _mapper.Map<ChangePasswordResponse>(passwordChanged);
@@ -51,15 +52,19 @@ namespace UserPlatform.ApplicationCore.Services
             if (changePasswordResponse == null)
             {
                 throw new NotFoundException(Constant.InvalidToken);
+            }else if (changePasswordResponse.IsValid)
+            {
+                throw new BadRequestException(Constant.InvalidToken);
             }
-            if (changePasswordResponse.ExpireOn < DateTime.UtcNow)
+            else if (changePasswordResponse!.ExpireOn < DateTime.UtcNow)
             {
                 throw new BadRequestException(Constant.TokenExpired);
             }
             var userDetails = _mapper.Map<UserDetails>(generatePasswordRequest);
             userDetails.UserId = changePasswordResponse.UserId;
             var isPasswordUpdated = await _userRepository.UpdatePasswordAsync(userDetails);
-            return isPasswordUpdated;
+            var updateIsInvalidTokenChangePassword = await _selfServiceRepository.UpdateIsValidChangePasswordAsync(new ChangePassword { Id = changePasswordResponse.Id, IsValid = false });
+            return isPasswordUpdated && updateIsInvalidTokenChangePassword;
         }
 
         public async Task<bool> VerifyUserCredAsync(VerifyUserCredRequest verifyUserCredRequest)
@@ -69,7 +74,8 @@ namespace UserPlatform.ApplicationCore.Services
             if (userObj == null)
             {
                 // For backend api only, client application needs to make their own message.
-                throw new NotFoundException(string.Format(Constant.UserIdNotFound, userDetails.UserName));
+                // log not found exception
+                throw new BadRequestException(Constant.InvalidUserNameOrPassword);
             }
             var securedPassword = GetSecurePassword(verifyUserCredRequest.Password, userObj.Salt).Password;
 
@@ -77,6 +83,7 @@ namespace UserPlatform.ApplicationCore.Services
             {
                 throw new BadRequestException(Constant.InvalidUserNameOrPassword);
             }
+            
             return (userObj != null && userObj.Password == securedPassword);
         }
     }

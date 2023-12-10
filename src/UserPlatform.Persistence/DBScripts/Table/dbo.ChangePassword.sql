@@ -45,5 +45,14 @@ BEGIN
 		ON dbo.ChangePassword (Token, TempPassword)
 END
 GO  
+IF NOT EXISTS(SELECT 1 FROM sys.columns 
+          WHERE Name = N'IsValid'
+          AND Object_ID = Object_ID(N'dbo.ChangePassword'))
+
+BEGIN
+	ALTER TABLE [dbo].ChangePassword 
+	ADD IsValid BIT DEFAULT 0 NOT NULL
+END
+
 
 
