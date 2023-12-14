@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
 using UserPlatform.Domain.Entities;
 using UserPlatform.Persistence.DBStorage;
+using UserPlatform.Domain.Entities.SP;
 
 namespace UserPlatform.Persistence.Repositories
 {
@@ -45,7 +46,7 @@ namespace UserPlatform.Persistence.Repositories
                 new SqlParameter("@isValid", changePassword.IsValid),
                 new SqlParameter("@changePasswordId", changePassword.Id)
             };
-            var result = await _dBContext.Database.ExecuteSqlRawAsync("dbo.Sp_UpdatePasswordAndPasswordTokenValidity @password, @salt, @userId,  @isValid, @changePasswordId", parameters);
+            var result = await _dBContext.Database.ExecuteSqlRawAsync(SP.Sp_UpdatePasswordAndPasswordTokenValidity, parameters);
             return result > 0;
         }
     }
