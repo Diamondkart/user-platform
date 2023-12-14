@@ -22,7 +22,6 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IRepositories
         Task<bool> UpdateNameAsync(UserDetails updateUserRequest);
 
         Task<UserDetails> GetUserByEmailAsync(string email);
-        Task<bool> UpdatePasswordAsync(UserDetails userDetails);
         Task<bool> VerifyUserCredAsync(UserDetails userDetails);
 
     }

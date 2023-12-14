@@ -78,14 +78,7 @@ namespace UserPlatform.Persistence.Repositories
                 .Where(w => w.Email == email)?.FirstOrDefault();
             return await Task.FromResult(result);
         }
-        public async Task<bool> UpdatePasswordAsync(UserDetails userDetails)
-        {
-            _dBContext.Users.Attach(userDetails);
-            _dBContext.Entry(userDetails).Property(e => e.Password).IsModified = true;
-            _dBContext.Entry(userDetails).Property(e => e.Salt).IsModified = true;
-            var isUpdated = await _dBContext.SaveChangesAsync();
-            return isUpdated == 1;
-        }
+        
         public async Task<bool> VerifyUserCredAsync(UserDetails userDetails)
         {
             var userExists = _dBContext.Users.Any(u => u.UserName == userDetails.UserName && u.Password == userDetails.Password);

@@ -3,4 +3,4 @@
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-src/UserPlatform.Web/appsettings.Local.json
+src/UserPlatform.Web\appsettings.Local.json

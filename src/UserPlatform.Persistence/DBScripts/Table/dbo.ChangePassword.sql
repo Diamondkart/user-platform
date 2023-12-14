@@ -36,7 +36,7 @@ BEGIN
 END
 GO
 
--- maintain to write all alter query for [UserDetails] below.
+-- maintain to write all alter query for [ChangePassword] below.
 GO    
 IF NOT EXISTS (SELECT name FROM sys.indexes  
             WHERE name = N'IX_ChangePassword_Token_TempPassword')     
@@ -45,5 +45,14 @@ BEGIN
 		ON dbo.ChangePassword (Token, TempPassword)
 END
 GO  
+IF NOT EXISTS(SELECT 1 FROM sys.columns 
+          WHERE Name = N'IsValid'
+          AND Object_ID = Object_ID(N'dbo.ChangePassword'))
+
+BEGIN
+	ALTER TABLE [dbo].[ChangePassword] 
+	ADD IsValid BIT DEFAULT 0 NOT NULL
+END
+GO
 
 
