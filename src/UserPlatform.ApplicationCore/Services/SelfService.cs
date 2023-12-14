@@ -37,7 +37,8 @@ namespace UserPlatform.ApplicationCore.Services
                 UserId = userDetails.UserId,
                 ExpireOn = DateTime.UtcNow.AddMinutes(120),
                 Token = token,
-                TempPassword = GenerateRandomPassword()
+                TempPassword = GenerateRandomPassword(),
+                IsValid = true
             };
             var passwordChanged = await _selfServiceRepository.RequestChangePasswordAsync(changePassword);
             var changePasswordResponse = _mapper.Map<ChangePasswordResponse>(passwordChanged);
@@ -50,16 +51,21 @@ namespace UserPlatform.ApplicationCore.Services
             var changePasswordResponse = await _selfServiceRepository.GetChangePasswordByTokenPasswordAsync(changePassword);
             if (changePasswordResponse == null)
             {
-                throw new NotFoundException(Constant.InvalidToken);
+                throw new NotFoundException(Constant.InvalidTokenOrTokenNotFOund);
             }
-            if (changePasswordResponse.ExpireOn < DateTime.UtcNow)
+            else if (!changePasswordResponse.IsValid)
+            {
+                throw new BadRequestException(Constant.InvalidToken);
+            }
+            else if (changePasswordResponse.ExpireOn < DateTime.UtcNow)
             {
                 throw new BadRequestException(Constant.TokenExpired);
             }
             var userDetails = _mapper.Map<UserDetails>(generatePasswordRequest);
             userDetails.UserId = changePasswordResponse.UserId;
-            var isPasswordUpdated = await _userRepository.UpdatePasswordAsync(userDetails);
-            return isPasswordUpdated;
+            changePasswordResponse.IsValid = false;
+            var isUpdated = await _selfServiceRepository.UpdatePasswordAndPasswordTokenValidityAsync(userDetails, changePasswordResponse);
+            return isUpdated;
         }
 
         public async Task<bool> VerifyUserCredAsync(VerifyUserCredRequest verifyUserCredRequest)

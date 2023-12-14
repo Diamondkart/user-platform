@@ -14,5 +14,6 @@ namespace UserPlatform.Domain.Entities
 
         public string Token { get; set; }
         public DateTime ExpireOn { get; set; }
+        public bool IsValid { get; set; }
     }
 }

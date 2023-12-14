@@ -1,16 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using UserPlatform.ApplicationCore.Ports.Out.IRepositories;
 using UserPlatform.Domain.Entities;
 using UserPlatform.Persistence.DBStorage;
 
 namespace UserPlatform.Persistence.Repositories
 {
-    public class SelfServiceRepository: ISelfServiceRepository
+    public class SelfServiceRepository : ISelfServiceRepository
     {
         private readonly UserPlatformDBContex _dBContext;
 
@@ -26,7 +22,6 @@ namespace UserPlatform.Persistence.Repositories
             return changePassword;
         }
 
-
         public Task<bool> GeneratePasswordAsync(UserDetails userDetails)
         {
             throw new NotImplementedException();
@@ -34,10 +29,24 @@ namespace UserPlatform.Persistence.Repositories
 
         public async Task<ChangePassword> GetChangePasswordByTokenPasswordAsync(ChangePassword changePassword)
         {
-            var changePasswordDb = _dBContext.ChangePassword
+            var changePasswordDb = _dBContext.ChangePassword.AsNoTracking()
                 .Where(x => x.TempPassword == changePassword.TempPassword && x.Token == changePassword.Token)
                 ?.FirstOrDefault();
             return await Task.FromResult(changePasswordDb);
+        }
+
+        public async Task<bool> UpdatePasswordAndPasswordTokenValidityAsync(UserDetails user, ChangePassword changePassword)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@password", user.Password),
+                new SqlParameter("@salt", user.Salt),
+                new SqlParameter("@userId", user.UserId),
+                new SqlParameter("@isValid", changePassword.IsValid),
+                new SqlParameter("@changePasswordId", changePassword.Id)
+            };
+            var result = await _dBContext.Database.ExecuteSqlRawAsync("dbo.Sp_UpdatePasswordAndPasswordTokenValidity @password, @salt, @userId,  @isValid, @changePasswordId", parameters);
+            return result > 0;
         }
     }
 }
