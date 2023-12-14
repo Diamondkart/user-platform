@@ -25,6 +25,8 @@ BEGIN
 			UPDATE	dbo.ChangePassword
 			SET		IsValid		=	@isValid
 			WHERE	Id			=	@changePasswordId
+
+			COMMIT TRANSACTION
 		END TRY
 		BEGIN CATCH
 			IF @@TRANCOUNT > 0
@@ -32,6 +34,6 @@ BEGIN
 					ROLLBACK TRANSACTION
 				END
 		END CATCH
-		COMMIT TRANSACTION
+		
 END
 GO
