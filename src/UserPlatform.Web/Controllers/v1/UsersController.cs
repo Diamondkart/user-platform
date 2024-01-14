@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserPlatform.ApplicationCore.Commands;
 using UserPlatform.ApplicationCore.Models.Request;
 using UserPlatform.ApplicationCore.Queries;
@@ -8,6 +9,7 @@ namespace UserPlatform.Web.Controllers.v1
 {
     [Route("v1/api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;

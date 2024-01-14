@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserPlatform.Domain.Entities
@@ -20,6 +21,11 @@ namespace UserPlatform.Domain.Entities
         public DateTime ModifiedOn { get; set; }
         public bool IsLocked { get; set; }
         public string Salt { get; set; }
-        
+        [DefaultValue(false)]
+        public bool IsVerified { get; set; } = false;
+
+        [DefaultValue(true)]
+        public bool IsActive { get; set; } = true;
+
     }
 }

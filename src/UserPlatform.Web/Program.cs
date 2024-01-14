@@ -1,10 +1,12 @@
 using ExceptionHandling.CustomMiddlewares;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
 using UserPlatform.ApplicationCore;
 using UserPlatform.Persistence;
 using UserPlatform.Web.Extensions;
+using UserPlatform.Web.TestUtils;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAppConfiguration(c => c.BuildConfiguration(args));
@@ -34,11 +36,23 @@ builder.Services.UseFluentValidation();
 builder.Services.AddControllers()
     .UseApiBehaviorOptions();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://localhost:8000";
+        options.Audience = "UserPlatform";
+        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+    });
+    
+    
+    
+    //.AddScheme<JwtBearerOptions, DiamondJwtAuthenticationHandler>(JwtBearerDefaults.AuthenticationScheme, s => { });
+
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 //app.UseRouting();
-app.UseAuthorization();
+
 app.UseCors(options => options.AllowAnyOrigin());
 app.MapControllers();
 
@@ -48,5 +62,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
