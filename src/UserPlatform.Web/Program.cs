@@ -13,12 +13,19 @@ builder.Host.ConfigureAppConfiguration(c => c.BuildConfiguration(args));
 
 // Add services to the container.
 
-var logger = new LoggerConfiguration()
+try
+{
+    var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+    builder.Logging.ClearProviders();
+    builder.Logging.AddSerilog(logger);
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Logger not configured properly.");
+}
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

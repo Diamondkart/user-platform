@@ -3,9 +3,9 @@ using UserPlatform.Domain.Entities;
 
 namespace UserPlatform.Persistence.DBStorage
 {
-    public class UserPlatformDBContex : DbContext
+    public class PlatformDBContex : DbContext
     {
-        public UserPlatformDBContex(DbContextOptions<UserPlatformDBContex> options) : base(options)
+        public PlatformDBContex(DbContextOptions<PlatformDBContex> options) : base(options)
         {
         }
 

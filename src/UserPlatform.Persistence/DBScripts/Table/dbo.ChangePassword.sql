@@ -1,6 +1,6 @@
 ﻿
 
-USE [UserPlatformDB]
+USE [PlatformDB]
 GO
 
 SET ANSI_NULLS ON

@@ -1,14 +1,14 @@
 ﻿IF NOT EXISTS (
 		SELECT 1
 		FROM sys.databases
-		WHERE name = N'UserPlatformDB'
+		WHERE name = N'PlatformDB'
 		)
 BEGIN
-	CREATE DATABASE UserPlatformDB
+	CREATE DATABASE PlatformDB
 END
 GO
 
-USE [UserPlatformDB]
+USE [PlatformDB]
 GO
 
 SET ANSI_NULLS ON

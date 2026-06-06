@@ -19,7 +19,7 @@ namespace UserPlatform.Persistence
 
         public static IServiceCollection AddConnectionString(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<UserPlatformDBContex>(options => options.UseSqlServer(configuration.GetConnectionString(Constant.ConnectionStringName)));
+            services.AddDbContext<PlatformDBContex>(options => options.UseSqlServer(configuration.GetConnectionString(Constant.ConnectionStringName)));
             return services;
         }
     }
