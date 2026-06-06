@@ -9,9 +9,9 @@ namespace UserPlatform.Persistence.Repositories
 {
     public class SelfServiceRepository : ISelfServiceRepository
     {
-        private readonly UserPlatformDBContex _dBContext;
+        private readonly PlatformDBContex _dBContext;
 
-        public SelfServiceRepository(UserPlatformDBContex context)
+        public SelfServiceRepository(PlatformDBContex context)
         {
             _dBContext = context;
         }

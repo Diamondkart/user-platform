@@ -8,9 +8,9 @@ namespace UserPlatform.Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly UserPlatformDBContex _dBContext;
+        private readonly PlatformDBContex _dBContext;
 
-        public UserRepository(UserPlatformDBContex context)
+        public UserRepository(PlatformDBContex context)
         {
             _dBContext = context;
         }
