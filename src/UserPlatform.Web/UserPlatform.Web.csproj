@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>3faa8489-88dd-4e82-b5e5-afaba8897d7d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="10.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.8" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />

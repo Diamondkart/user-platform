@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 using UserPlatform.ApplicationCore.Ports.Out.IServices;
+using UserPlatform.Domain.Attributes;
 
 namespace UserPlatform.ApplicationCore.Services.CacheServices
 {
+    [ExcludeFromScan]
     public class RedisCacheService : ICacheService
     {
         private readonly IDistributedCache _cache;
@@ -12,37 +14,40 @@ namespace UserPlatform.ApplicationCore.Services.CacheServices
         {
             _cache = cache;
         }
-        public async Task<bool> ExistsAsync(string key, CancellationToken cancellationToken = default)
-        {
-            return false;
-        }
 
-        public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default)
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<CancellationToken, ValueTask<T>> factory, TimeSpan? expiry = null, TimeSpan? localExpiry = null, IEnumerable<string>? tags = null, CancellationToken ct = default)
         {
-            var bytes = await _cache.GetAsync(key);
+            var bytes = await _cache.GetAsync(key, ct);
 
             if (bytes is not null)
-            {
-                var cacheValue = JsonSerializer.Deserialize<T>(bytes);
-                return cacheValue;
-            }
-            return default(T?);
+                return JsonSerializer.Deserialize<T>(bytes)!;
+
+            var value = await factory(ct);
+
+            await _cache.SetAsync(key, JsonSerializer.SerializeToUtf8Bytes(value),
+                new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = expiry ?? TimeSpan.FromMinutes(5)
+                }, ct);
+
+            return value;
         }
 
-        public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
+        public Task RemoveAsync(string key, CancellationToken ct = default)
+            => _cache.RemoveAsync(key, ct);
+
+        public Task RemoveByTagAsync(string tag, CancellationToken ct = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task SetAsync<T>(string key, T value, ICacheEntryOptions? options = null, CancellationToken cancellationToken = default)
+        public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null, CancellationToken ct = default)
         {
-            var bytes = JsonSerializer.SerializeToUtf8Bytes(value);
-
-            await _cache.SetAsync(key, bytes, new DistributedCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = options?.AbsoluteExpirationRelativeToNow,
-                SlidingExpiration = options?.SlidingExpiration,
-            });
+            await _cache.SetAsync(key, JsonSerializer.SerializeToUtf8Bytes(value),
+                new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = expiry ?? TimeSpan.FromMinutes(5)
+                }, ct);
         }
     }
 }

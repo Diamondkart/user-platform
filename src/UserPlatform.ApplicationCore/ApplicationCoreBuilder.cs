@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using UserPlatform.ApplicationCore.Ports.Out.IServices;
+using UserPlatform.ApplicationCore.Services.CacheServices;
+using UserPlatform.Domain.Attributes;
 
 namespace UserPlatform.ApplicationCore
 {
@@ -16,10 +18,9 @@ namespace UserPlatform.ApplicationCore
             //services.AddScoped<ICustomerService, CustomerService>();
             services.Scan(scan => scan
             .FromAssemblyOf<IUserService>()
-            .AddClasses()
+            .AddClasses(classes=>classes.WithoutAttribute<ExcludeFromScanAttribute>())
             .AsImplementedInterfaces()
             .WithScopedLifetime());
-
             return services;
         }
     }

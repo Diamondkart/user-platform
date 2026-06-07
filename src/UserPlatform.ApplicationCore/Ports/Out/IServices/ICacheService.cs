@@ -3,22 +3,16 @@ namespace UserPlatform.ApplicationCore.Ports.Out.IServices
 {
     public interface ICacheService
     {
-        Task SetAsync<T>(
-            string key,
-            T value,
-            ICacheEntryOptions? options = null,
-            CancellationToken cancellationToken = default);
+        Task<T> GetOrCreateAsync<T>(
+        string key,
+        Func<CancellationToken, ValueTask<T>> factory,
+        TimeSpan? expiry = null,
+        TimeSpan? localExpiry = null,
+        IEnumerable<string>? tags = null,
+        CancellationToken ct = default);
 
-        Task<T?> GetAsync<T>(
-            string key,
-            CancellationToken cancellationToken = default);
-
-        Task<bool> ExistsAsync(
-            string key,
-            CancellationToken cancellationToken = default);
-
-        Task RemoveAsync(
-            string key,
-            CancellationToken cancellationToken = default);
+        Task RemoveAsync(string key, CancellationToken ct = default);
+        Task RemoveByTagAsync(string tag, CancellationToken ct = default);
+        Task SetAsync<T>(string key, T value, TimeSpan? expiry = null, CancellationToken ct = default);
     }
 }

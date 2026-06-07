@@ -3,10 +3,14 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
+using StackExchange.Redis;
 using UserPlatform.ApplicationCore;
+using UserPlatform.ApplicationCore.Ports.Out.IServices;
+using UserPlatform.ApplicationCore.Services.CacheServices;
 using UserPlatform.Persistence;
 using UserPlatform.Web.Extensions;
 using UserPlatform.Web.TestUtils;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAppConfiguration(c => c.BuildConfiguration(args));
@@ -37,6 +41,7 @@ builder.Services.AddConnectionString(builder.Configuration);
 builder.Services.AddPersistenceBuilderServices();
 // ApplicationCore
 builder.Services.AddApplicationCoreServices();
+builder.Services.AddCacheService(builder.Configuration);
 
 builder.Services.UseFluentValidation();
 
