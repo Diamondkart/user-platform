@@ -33,6 +33,8 @@ namespace UserPlatform.ApplicationCore.Services.CacheServices
 
         public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null, CancellationToken ct = default)
         {
+            await cache.RemoveAsync(key, ct);
+
             await cache.GetOrCreateAsync(
                 key,
                 _ => ValueTask.FromResult(value),

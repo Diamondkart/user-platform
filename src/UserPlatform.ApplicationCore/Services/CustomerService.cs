@@ -12,12 +12,21 @@ namespace UserPlatform.ApplicationCore.Services
             _cacheService = cacheService;
         }
 
-        public async Task<GetCustomerResponse> GetCustomerById(int customerId)
+        public async Task<GetCustomerResponse> GetCustomerById(Guid customerId)
         {
-            var value=await _cacheService.GetOrCreateAsync("customer_" + customerId, factory: async (ct) =>
+            var value=await _cacheService.GetOrCreateAsync<GetCustomerResponse>("customer:" + customerId, factory: async (ct) =>
             {
-                // You can call here dao layer method.
                 return new GetCustomerResponse { ID = Guid.NewGuid(), CustomerName = "Customer " + customerId };
+            });
+
+            return value;
+        }
+
+        public async Task<string> GetCustomerName(Guid customerId)
+        {
+            var value = await _cacheService.GetOrCreateAsync<string>("customer:" + customerId, factory: async (ct) =>
+            {
+                return null;
             });
 
             return value;
